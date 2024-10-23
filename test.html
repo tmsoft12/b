@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DHT11 Sensor Data</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #data {
+            font-size: 24px;
+            margin-top: 20px;
+        }
+
+        #status {
+            color: green;
+        }
+    </style>
+</head>
+
+<body>
+    <h1>DHT11 Sensor Data</h1>
+    <div id="data">Waiting for data...</div>
+    <div id="status"></div>
+
+    <script>
+        // Create a new WebSocket connection
+        const socket = new WebSocket('ws://192.168.100.187:8000');
+
+        // When the connection is open, log it
+        socket.addEventListener('open', function (event) {
+            document.getElementById('status').innerText = 'Connected to the WebSocket server';
+        });
+
+        // When a message is received, update the data on the page
+        socket.addEventListener('message', function (event) {
+            document.getElementById('data').innerText = event.data;
+        });
+
+        // Handle errors
+        socket.addEventListener('error', function (event) {
+            document.getElementById('status').innerText = 'Error connecting to the server';
+            document.getElementById('status').style.color = 'red';
+        });
+
+        // Handle connection close
+        socket.addEventListener('close', function (event) {
+            document.getElementById('status').innerText = 'Disconnected from the WebSocket server';
+            document.getElementById('status').style.color = 'red';
+        });
+    </script>
+</body>
+
+</html>
