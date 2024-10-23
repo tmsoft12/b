@@ -11,14 +11,13 @@
 <body>
     <header>
         <h1>Akylly Sallançak</h1>
-
     </header>
 
     <div class="container">
         <div class="card">
             <div class="icon">📡</div>
             <h3>Hereket Duýujy</h3>
-            <p>Hereket tapyldy.</p>
+            <p id="motionStatus">Hereket tapyldy.</p> <!-- Hareket durumu burada gösterilecek -->
         </div>
         <div class="card">
             <div class="icon">🌡️</div>
@@ -28,7 +27,7 @@
             <div class="icon">💧</div>
             <p id="humidity"></p>
         </div>
-        <div class="card">
+        <div class="card" onclick="openPopup()">
             <div class="icon">📷</div>
             <h3>Kamera</h3>
             <p>Kamera işjeň.</p>
@@ -40,7 +39,13 @@
             <p>Häzir çalynýar: "Halanýan Aýdym"</p>
         </div>
     </div>
+
+    <script src="app.js"></script>
+    <script>
+        function openPopup() {
+            window.open("http://192.168.180.52:81/stream", "PopupWindow", "width=500,height=500");
+        }
+    </script>
 </body>
-<script src="app.js"></script>
 
 </html>

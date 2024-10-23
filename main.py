@@ -7,8 +7,12 @@ import threading  # For running the WebSocket server in a separate thread
 # DHT11 sensor's DATA pin
 DHT_PIN = 27  # DHT11 sensor's DATA pin
 
+# PIR sensor's pin
+PIR_PIN = 17  # PIR sensor's pin
+
 # GPIO configuration
 GPIO.setmode(GPIO.BCM)
+GPIO.setup(PIR_PIN, GPIO.IN)  # Set PIR_PIN as input
 
 # WebSocket server setup
 server = WebsocketServer(port=8000, host='0.0.0.0')
@@ -51,6 +55,12 @@ try:
         else:
             error_message = 'Error reading from DHT11 sensor.'
             send_message_to_all(error_message)
+
+        # Reading from the PIR sensor
+        if GPIO.input(PIR_PIN):  # If motion is detected
+            motion_message = 'Motion detected!'
+            send_message_to_all(motion_message)  # Send motion detection message
+            time.sleep(2)  # Wait to avoid multiple messages for the same motion
 
         time.sleep(10)  # Wait for 10 seconds before reading again
 

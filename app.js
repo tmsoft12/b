@@ -1,4 +1,4 @@
-const socket = new WebSocket('ws://192.168.100.187:8000');
+const socket = new WebSocket('ws://192.168.180.131:8000'); // Raspberry Pi IP address
 
 // When the connection is open, update status
 socket.addEventListener('open', function (event) {
@@ -9,15 +9,19 @@ socket.addEventListener('open', function (event) {
 socket.addEventListener('message', function (event) {
     const message = event.data;
 
-    // Check if the message contains temperature or humidity information
     if (message.startsWith('Temperature:')) {
-        document.getElementById('temperature').innerText = message; // Update temperature
+        document.getElementById('temperature').innerText = message;
     } else if (message.startsWith('Humidity:')) {
-        document.getElementById('humidity').innerText = message; // Update humidity
-    } else {
-        document.getElementById('status').innerText = message; // Display any error messages
+        document.getElementById('humidity').innerText = message;
+    } else if (message.startsWith('Motion detected!')) {
+        document.getElementById('motionStatus').innerText = message; // Hereket algylandy
+        setTimeout(() => {
+            document.getElementById('motionStatus').innerText = 'Hereket ýok.'; // 5 sekuntdan soň hereket ýok diýmek
+        }, 5000); // 5000 milisegunde 5 sekunt
+        document.getElementById('status').innerText = message;
     }
 });
+
 
 // Handle errors
 socket.addEventListener('error', function (event) {
